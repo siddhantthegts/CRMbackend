@@ -1,0 +1,49 @@
+<%- include('partials/_htmlhead'); -%>
+
+    <div class="sidenav">
+        <h1 class="header">Admin Dashboard</h1>
+      <a href="#"> <i class="fa-solid fa-bars"></i><span>Dashboard</span> </a>
+      <a href="#"> <i class="fa-solid fa-list-check"></i><span>Projects</span></a>
+      <a href="#"><i class="fa-solid fa-users"></i> <span>Contractors</span></a>
+      <a href="#"><i class="fa-solid fa-users-rays"></i><span>Employees</span></a>
+      <a href="#"><i class="fa-solid fa-warehouse"></i><span>Unions</span> </a>
+      <a href="#"><i class="fa-solid fa-dollar-sign"></i> <span>Wages</span></a>
+      <a href="#"><i class="fa-solid fa-gears"></i> <span>Settings</span></a>
+    </div>
+    
+    <div class="content">
+        <form >
+            <h3>Add a Project</h3>
+            <label for="fname">Code/Contract</label>
+            <input type="text" id="fname" name="firstname" placeholder="Code/Contract Number..">
+        
+            <label for="lname">Name</label>
+            <input type="text" id="lname" name="lastname" placeholder="Project name..">
+
+            <label for="lname">Address</label>
+            <input type="text" id="lname" name="lastname" placeholder="Address..">
+        
+            <label for="country">Prime Contractors</label>
+            <select id="country" name="country">
+              <option value="australia">Contractors 1</option>
+              <option value="canada">Contractors 2</option>
+            </select>
+
+            <div class="add-subcontractor top">
+                <i class="fa-solid fa-plus"></i>
+                <b>Add Prime-Contractor</b>
+            </div>
+
+            <label for="country">Sub Contractors</label>
+            <select id="country" name="country">
+              <option value="australia">Contractors 1</option>
+              <option value="canada">Contractors 2</option>
+            </select>
+            <div class="add-subcontractor">
+                <i class="fa-solid fa-plus"></i>
+                <b>Add Sub-Contractor</b>
+            </div>
+            <input type="submit" value="Submit">
+          </form>
+    </div>
+<%- include('partials/_htmlfoot'); -%>
