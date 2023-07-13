@@ -144,29 +144,16 @@ app.all('/', (req, res, next) => {
 });
 
 app.get('/generateInvoice', (req, res) => {
+  const url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
+  const receivedQueryString = url.searchParams.get('orderData');
+  const receivedIds = JSON.parse(receivedQueryString);
+  console.log(receivedIds);
   let orderInfo = {
     orderNo: '15484659',
     invoiceNo: 'MH-MU-1077',
     invoiceDate: '11/05/2021',
     invoiceTime: '10:57:00 PM',
-    products: [
-      {
-        id: '15785',
-        name: 'Acer Aspire E573',
-        company: 'Acer',
-        unitPrice: 39999,
-        totalPrice: 39999,
-        qty: 1,
-      },
-      {
-        id: '15786',
-        name: 'Dell Magic Mouse WQ1545',
-        company: 'Dell',
-        unitPrice: 2999,
-        totalPrice: 5998,
-        qty: 2,
-      },
-    ],
+    products: receivedIds,
     totalValue: 45997,
   };
   mongoose.connect(client);
@@ -220,11 +207,11 @@ app.get('/generateInvoice', (req, res) => {
   orderInfo.products.forEach((element) => {
     console.log('adding', element.name);
     let y = 256 + productNo * 20;
-    doc.fillColor('#000').text(element.id, 20, y, { width: 90 });
-    doc.text('element.name', 110, y, { width: 190 });
-    doc.text('element.qty', 300, y, { width: 100 });
-    doc.text('element.unitPrice', 400, y, { width: 100 });
-    doc.text('element.totalPrice', 500, y, { width: 100 });
+    doc.fillColor('#000').text(element.date, 20, y, { width: 90 });
+    doc.text(element.employeeName, 110, y, { width: 190 });
+    doc.text(element.hoursWorked, 300, y, { width: 100 });
+    doc.text(element.salary, 400, y, { width: 100 });
+    doc.text(element.total, 500, y, { width: 100 });
     productNo++;
   });
 
