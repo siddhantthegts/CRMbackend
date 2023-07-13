@@ -26,15 +26,7 @@ app.use(express.urlencoded({ limit: '100mb', extended: true }));
 const { Schema } = mongoose;
 
 const contractors = new Schema({
-  contractorType: String,
-  contractorTrade: String,
   contractorName: String,
-  address: String,
-  phone: String,
-  cpi: {
-    type: Array,
-  },
-  assignedProjects: Array,
 });
 
 const projects = new Schema({
@@ -160,7 +152,7 @@ app.get('/generateInvoice', (req, res) => {
   let fontNormal = 'Helvetica';
   let fontBold = 'Helvetica-Bold';
   // if (req.query.employee != null || req.query.employee != '') {
-  const doc = new PDFDocument();
+  const doc = new PDFDocument({ size: 'A4' });
   res.setHeader('Content-Type', 'application/pdf');
   res.setHeader(
     'Content-Disposition',
@@ -207,7 +199,7 @@ app.get('/generateInvoice', (req, res) => {
   orderInfo.products.forEach((element) => {
     console.log('adding', element.name);
     let y = 256 + productNo * 20;
-    doc.fillColor('#000').text(element.date, 20, y, { width: 90 });
+    doc.fillColor('#000').text(element.date.slice(0, 10), 20, y, { width: 90 });
     doc.text(element.employeeName, 110, y, { width: 190 });
     doc.text(element.hoursWorked, 300, y, { width: 100 });
     doc.text(element.salary, 400, y, { width: 100 });
@@ -224,6 +216,7 @@ app.get('/generateInvoice', (req, res) => {
   doc.font(fontBold).text('Tax:', 400, 256 + productNo * 17 + 25);
   doc.font(fontBold).text('Total:', 400, 256 + productNo * 17 + 40);
   doc.font(fontBold).text(orderInfo.totalValue, 500, 256 + productNo * 17 + 40);
+  doc.image('./img/invoicebottom.png', 10, 720, { width: 323, height: 120 });
 
   doc.end();
 });
@@ -498,16 +491,6 @@ app.all('/contractors', (req, res) => {
   if (req.method === 'POST') {
     const addContractor = new ContractorModel({
       contractorName: req.body.contractorname,
-      contractorAddress: req.body.contractoraddress,
-      contractorType: req.body.contractortype,
-      contractorTrade: req.body.contractortrade,
-      assignedProject: req.body.assignedproject,
-      cpi: {
-        name: req.body.cpi.name,
-        title: req.body.cpi.title,
-        phone: req.body.cpi.phone,
-        email: req.body.cpi.email,
-      },
     });
     addContractor.save().then((r) => {
       res.send('Contractor added to database');
@@ -517,11 +500,13 @@ app.all('/contractors', (req, res) => {
     const contracdata = [];
     const ContractorModal = mongoose.model('Contractor', contractors);
     const func = async () => {
-      await ContractorModal.find({}).then((r) => {
-        for (let i = 0; i < r.length; i++) {
-          contracdata.push(r[i]);
+      await ContractorModal.find({}, { _id: 0, contractorName: 1 }).then(
+        (r) => {
+          for (let i = 0; i < r.length; i++) {
+            contracdata.push(r[i]);
+          }
         }
-      });
+      );
       res.send(contracdata);
     };
     func();
