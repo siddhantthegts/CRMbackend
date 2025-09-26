@@ -10,7 +10,7 @@ import doc from 'pdfkit';
 const __dirname = dirname(fileURLToPath(import.meta.url)) + sep;
 
 const client =
-  'mongodb+srv://admin:admin123@cluster0.rizqca1.mongodb.net/?retryWrites=true&w=majority';
+  'mongodb+srv://siddhantsingh:QPOj2XCyZlnzWxzx@cluster0crm.aqwihho.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0CRM';
 const cfg = {
   port: process.env.PORT || 9000,
 };
